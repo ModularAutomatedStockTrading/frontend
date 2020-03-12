@@ -1,8 +1,13 @@
 import React from 'react';
 import Overview from './Overview'
+import Models from './Models/index'
+import CreateModel from './Models/Create'
+import Trades from './Trading/Trades'
+import CreateTrade from './Trading/Create'
 import SidePanel from 'components/SidePanel/index.js'
 import {
   Route,
+  useHistory
 } from "react-router-dom";
 
 const screenW = window.screen.availWidth;
@@ -11,10 +16,14 @@ const screenH = window.screen.availHeight;
 export default function DashBoard(props){
     return <div>
         <Route exact path={"/dashboard"} component={() => <Wrapper><Overview/></Wrapper>}/>
-    </div>
+        <Route exact path={"/dashboard/models"} component={() => <Wrapper><Models/></Wrapper>}/>
+        <Route exact path={"/dashboard/models/create"} component={() => <Wrapper><CreateModel/></Wrapper>}/>
+        <Route exact path={"/dashboard/trades/create"} component={() => <Wrapper><CreateTrade/></Wrapper>}/>
+        <Route exact path={"/dashboard/trades"} component={() => <Wrapper><Trades/></Wrapper>}/>
+   </div>
 }
 
-const menuContent = {
+const testMenuContent = {
     items : [
         {
             title : "test1",
@@ -59,6 +68,66 @@ const menuContent = {
 };
 
 function Wrapper(props){
+    const history = useHistory();
+    const menuContent = {
+        items : [
+            {
+                title : "Dashboard",
+                onClick : () => {
+                    history.push("/dashboard")
+                }
+            },
+            {
+                title : "Models",
+                onClick : () => {
+                    history.push("/dashboard/models")
+                },
+                items : [
+                    {
+                        title : "Create model",
+                        onClick : () => {
+                            history.push("/dashboard/models/create")
+                        }
+                    }
+                ]
+            },
+            {
+                title : "Trading (coming soon)",
+                items : [
+                    {
+                        title : "View trades",
+                        onClick : () => {
+                            history.push("/dashboard/trades")
+                        },
+                        items : [
+                            {
+                                title : "Create trade",
+                                onClick : () => {
+                                    history.push("/dashboard/trades/create")
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                title : "Analytics (coming soon)",
+                items : [
+                    {
+                        title : "...",
+                    }
+                ]
+            },
+            {
+                title : "Multimodels (coming soon)",
+                items : [
+                    {
+                        title : <div style={{fontSize : "0.9rem"}}>"Create multimodel (coming soon)"</div>
+                    }
+                ]
+            }
+        ]
+    };
     return <div height={{
         height : "100vh",
         width : "100vw",
