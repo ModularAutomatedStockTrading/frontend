@@ -8,7 +8,13 @@ export default function SidePanel(props){
     const recursiveBuildElements = (items, depth) => {
         for(let i = 0; i < items.length; i++){
             const item = items[i];
-            elements.push(<Item title={item.title} depth={depth} onClick={item.onClick}/>);
+            elements.push(
+                <Item 
+                    title={item.title} depth={depth} 
+                    active={data.active == item.title}
+                    onClick={item.onClick}
+                />
+            );
             if(item.items) recursiveBuildElements(item.items, depth + 1);
         }
     }
@@ -16,7 +22,7 @@ export default function SidePanel(props){
     return <div style={{
         height : "100%",
         width : "100%",
-        background : "lightgrey"
+        background : "#f2f2f2"
     }}>
         {elements}
     </div>
@@ -26,15 +32,16 @@ const Item = (props) => {
     return <div style={{
         width : "97%",
         height : screenH * (5 - (props.depth - 1) * 0.7) / 100,
-        padding : "0.5vh 0px 0.5vh 3%",
+        padding : "1% 0",
+        marginLeft : "3%",
         position : "relative"
     }}>
         <div 
             className={"SidePanel-item" + (props.onClick ? " SidePanel-item-clickable" : "")} 
             onClick={props.onClick}
             style={{
-                width : `${100 - 10 * props.depth + 7}%`,
-                left : `${10 * props.depth - 7}%`
+                width : `${100 - 10 * (props.depth - 1) - (props.active ? 2.5 : 0)}%`,
+                left : `${10 * (props.depth - 1)}%`
             }}
         >
             <p style={{
@@ -49,5 +56,17 @@ const Item = (props) => {
                 {props.title}
             </p>
         </div>
+        {
+            props.active && <div
+                style={{
+                    position : "absolute",
+                    right : 0,
+                    top : 0,
+                    height : "-webkit-fill-available",
+                    width : "2.5%",
+                    backgroundColor : "#0b5364"
+                }}
+            />
+        }
     </div>
 }

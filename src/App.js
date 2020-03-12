@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import DashBoard from 'screens/DashBoard/index.js'
 import Home from 'screens/Home/index.js'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

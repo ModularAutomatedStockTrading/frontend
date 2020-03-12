@@ -9,17 +9,28 @@ import {
   Route,
   useHistory
 } from "react-router-dom";
+import { Badge } from 'react-bootstrap';
 
 const screenW = window.screen.availWidth;
 const screenH = window.screen.availHeight;
 
 export default function DashBoard(props){
     return <div>
-        <Route exact path={"/dashboard"} component={() => <Wrapper><Overview/></Wrapper>}/>
-        <Route exact path={"/dashboard/models"} component={() => <Wrapper><Models/></Wrapper>}/>
-        <Route exact path={"/dashboard/models/create"} component={() => <Wrapper><CreateModel/></Wrapper>}/>
-        <Route exact path={"/dashboard/trades/create"} component={() => <Wrapper><CreateTrade/></Wrapper>}/>
-        <Route exact path={"/dashboard/trades"} component={() => <Wrapper><Trades/></Wrapper>}/>
+        <Route exact path={"/dashboard"}
+            component={() => <Wrapper active={"Dashboard"}><Overview/></Wrapper>}
+        />
+        <Route exact path={"/dashboard/models"} 
+            component={() => <Wrapper active={"Models"}><Models/></Wrapper>}
+        />
+        <Route exact path={"/dashboard/models/create"}
+            component={() => <Wrapper active={"Create model"}><CreateModel/></Wrapper>}
+        />
+        <Route exact path={"/dashboard/trades/create"}
+            component={() => <Wrapper active={"Create trade"}><CreateTrade/></Wrapper>}
+        />
+        <Route exact path={"/dashboard/trades"}
+            component={() => <Wrapper active={"View trades"}><Trades/></Wrapper>}
+        />
    </div>
 }
 
@@ -70,6 +81,7 @@ const testMenuContent = {
 function Wrapper(props){
     const history = useHistory();
     const menuContent = {
+        active : props.active,
         items : [
             {
                 title : "Dashboard",
@@ -92,7 +104,7 @@ function Wrapper(props){
                 ]
             },
             {
-                title : "Trading (coming soon)",
+                title : <>Trading <Badge variant="primary">Coming soon</Badge></>,
                 items : [
                     {
                         title : "View trades",
@@ -109,41 +121,36 @@ function Wrapper(props){
                 ]
             },
             {
-                title : "Analytics (coming soon)",
-                items : [
-                    {
-                        title : "...",
-                    }
-                ]
+                title : <>Analytics <Badge variant="primary">Coming soon</Badge></>
             },
             {
-                title : "Multimodels (coming soon)",
+                title : <>Multimodels Analytics <Badge variant="primary">Coming soon</Badge></>,
                 items : [
                     {
-                        title : <div style={{fontSize : "0.9rem"}}>Create multimodel (coming soon)</div>
+                        title : <div style={{fontSize : "0.9rem"}}>Create multimodel <Badge variant="primary">Coming soon</Badge></div>
                     }
                 ]
             }
         ]
     };
     return <div height={{
-        height : "100vh",
         width : "100vw",
         overflow : "hidden"
     }}>
         <div style={{
-            height : "100%",
+            height : "100vh",
             width : screenW * 0.2,
             boxShadow : "0px 0px 1vw 0.1vw grey",
+            paddingTop : screenH * 0.02,
             overflowY : "auto",
-            display : "inline-block",
+            display : "block",
             float : "left"
         }}>
             <SidePanel data={menuContent}/>
         </div>
         <div style={{
             left : screenW * 0.2,
-            height : "100%",
+            height : "100vh",
             width : "-webkit-fill-available",
             overflowY : "auto",
             display : "flex"

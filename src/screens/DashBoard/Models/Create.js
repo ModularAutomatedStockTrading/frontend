@@ -2,14 +2,15 @@ import React from 'react';
 export default function Create(props){
     return <div style={{
         width : "100%",
-        height : "100%"
+        height : "100%",
+        overflow : ""
     }}>
         <div style={{
-            margin : "auto",
+            margin : "0 auto",
             width : "fit-content",
-            height : "fit-content"
+            textAlign : "center"
         }}>
-            Create model
+            <p style={{fontSize : "2rem"}}>Create model</p>
         </div>
     </div>
 }
