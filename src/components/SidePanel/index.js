@@ -23,7 +23,6 @@ export default function SidePanel(props){
 }
 
 const Item = (props) => {
-    console.log((5 - (props.depth - 1) * 0.7))
     return <div style={{
         width : "97%",
         height : screenH * (5 - (props.depth - 1) * 0.7) / 100,
