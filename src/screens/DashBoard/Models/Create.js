@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Form, Button, Table} from 'react-bootstrap'
 import InputOptions from 'components/InputOptions'
+import OutputOptions from 'components/OutputOptions'
 export default function Create(props){
     const [amountOfHiddenLayers, setAmountOfHiddenLayers] = useState(null);
     const [nodeCount, setNodeCount] = useState({
@@ -8,20 +9,20 @@ export default function Create(props){
         output : 1
     });
     const [inputs, setInputs] = useState({});
+    const [outputs, setOutputs] = useState({});
     return <div style={{
         width : "100%",
         height : "100%",
-        overflow : ""
     }}>
         <div style={{
             width : "fit-content",
-            minWidth : "40%",
+            minWidth : "50%",
             textAlign : "center",
             margin : "5vh auto"
         }}>
             <p style={{fontSize : "2rem"}}>Create model</p>
             <Form onSubmit={(e) => {
-                // clear nodeCount and inputs
+                // clear nodeCount and inputs and outputs
                 e.preventDefault();
             }}>
                 <Form.Group>
@@ -33,6 +34,69 @@ export default function Create(props){
                     <Form.Label>Description</Form.Label>
                     <Form.Control as="textarea" placeholder="Description" />
                 </Form.Group>
+
+                <Form.Label>Input layer configuration</Form.Label>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Node #</th>
+                            <th>Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            (() => {
+                                const res = [];
+                                for(let i = 1; i <= nodeCount.input; i++){
+                                    res.push(
+                                        <tr key={i}>
+                                            <td>Node {i}</td>
+                                            <td>
+                                                <InputOptions value={inputs[i]} onPick={(val) => {
+                                                    inputs[i] = val;
+                                                    setInputs({...inputs});
+                                                }}/>
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                                return res;
+                            })()
+                        }
+                    </tbody>
+                </Table>
+
+                <Form.Label>Output layer configuration</Form.Label>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Node #</th>
+                            <th>Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            (() => {
+                                const res = [];
+                                for(let i = 1; i <= nodeCount.output; i++){
+                                    res.push(
+                                        <tr key={i}>
+                                            <td>Node {i}</td>
+                                            <td>
+                                                <OutputOptions value={outputs[i]} onPick={(val) => {
+                                                    outputs[i] = val;
+                                                    setOutputs({...outputs});
+                                                }}/>
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                                return res;
+                            })()
+                        }
+                    </tbody>
+                </Table>
+
                 <Form.Group >
                     <Form.Label>Amount of hidden layers</Form.Label>
                     <Form.Control onChange={(e) => {
@@ -40,6 +104,7 @@ export default function Create(props){
                         else setAmountOfHiddenLayers(null);
                     }} type="number" required min="0" max="100" placeholder="Enter amount of hidden layers" value={amountOfHiddenLayers != null ? amountOfHiddenLayers : ""}/>
                 </Form.Group>
+
                 <Form.Label>Layer configuration</Form.Label>
                 <Table striped bordered hover>
                     <thead>
@@ -89,38 +154,6 @@ export default function Create(props){
                                 }} required type="number" min="1" max="50" placeholder="Enter amount of nodes" value={nodeCount.output}/>
                             </td>
                         </tr>
-                    </tbody>
-                </Table>
-
-                <Form.Label>Input layer configuration</Form.Label>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Node #</th>
-                            <th>Input</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            (() => {
-                                const res = [];
-                                for(let i = 1; i <= nodeCount.input; i++){
-                                    res.push(
-                                        <tr key={i}>
-                                            <td>Node {i}</td>
-                                            <td>
-                                                {inputs[i] ? inputs[i] : "choose input"}
-                                                <InputOptions onPick={(val) => {
-                                                    inputs[i] = val;
-                                                    setInputs(inputs);
-                                                }}/>
-                                            </td>
-                                        </tr>
-                                    );
-                                }
-                                return res;
-                            })()
-                        }
                     </tbody>
                 </Table>
 

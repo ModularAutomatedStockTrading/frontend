@@ -6,6 +6,9 @@ import * as serviceWorker from './serviceWorker';
 
 document.getElementsByTagName("html")[0].style.fontSize = window.screen.availWidth * 0.01 + "px";
 
+window.screenW = window.screen.availWidth;
+window.screenH = window.screen.availHeight;
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

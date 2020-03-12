@@ -2,49 +2,42 @@ import React, {useState} from 'react';
 import './index.css';
 import Select, { components } from 'react-select';
 
-const stocks = ["Apple", "Amazon", "Google", "Microsoft"];
-const stockOptions = [];
-for(const stock of stocks){
-    stockOptions.push({
+const stocksUp = ["Apple up", "Amazon up", "Google up", "Microsoft up"];
+const stockUpOptions = [];
+for(const stock of stocksUp){
+    stockUpOptions.push({
         value : {
-            type : `stock`,
+            type : `stockup`,
             value : stock
         },
         label : stock
     });
 }
 
-const metrics = [
-    "Price-to-Earnings Ratio",
-    "Price-to-Book Ratio",
-    "Debt-to-Equity",
-    "Free Cash Flow",
-    "PEG Ratio",
-    "The Bottom Line"
-];
-const metricOptions = [];
-for(const metric of metrics){
-    metricOptions.push({
+const stocksDown = ["Apple down", "Amazon down", "Google down", "Microsoft down"];
+const stockDownOptions = [];
+for(const stock of stocksDown){
+    stockDownOptions.push({
         value : {
-            type : `metric`,
-            value : metric
+            type : `stockdown`,
+            value : stock
         },
-        label : metric
-    })
-};
+        label : stock
+    });
+}
 
 export const options = [
   {
-    label: 'Stocks',
-    options: stockOptions,
+    label: 'Stocks up',
+    options: stockUpOptions,
   },
   {
-    label: 'Metrics',
-    options: metricOptions,
+    label: 'Stocks down',
+    options: stockDownOptions,
   }
 ];
 
-export default function InputOptions(props){
+export default function OutputOptions(props){
     return <div style={{position : "relative"}}>
         <Select
             required
