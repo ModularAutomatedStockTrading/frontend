@@ -27,18 +27,23 @@ const Item = (props) => {
         width : "97%",
         height : screenH * 0.05,
         padding : "0.5vh 0px 0.5vh 3%",
+        position : "relative"
     }}>
         <div 
             className={"SidePanel-item" + (props.onClick ? " SidePanel-item-clickable" : "")} 
             onClick={props.onClick}
+            style={{
+                width : `${100 - 10 * props.depth + 7}%`,
+                left : `${10 * props.depth - 7}%`
+            }}
         >
             <p style={{
                 position : "absolute",
                 top : 0, bottom : 0, margin : "auto",
                 height : "fit-content",
-                left : `${10 * props.depth}%`,
                 fontSize : "1.2rem",
                 fontWeight : "700",
+                marginLeft : screenH * 0.01,
                 userSelect: "none"
             }}>
                 {props.title}

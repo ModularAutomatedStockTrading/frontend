@@ -99,14 +99,12 @@ function Wrapper(props){
                         onClick : () => {
                             history.push("/dashboard/trades")
                         },
-                        items : [
-                            {
-                                title : "Create trade",
-                                onClick : () => {
-                                    history.push("/dashboard/trades/create")
-                                }
-                            }
-                        ]
+                    },
+                    {
+                        title : "Create trade",
+                        onClick : () => {
+                            history.push("/dashboard/trades/create")
+                        }
                     }
                 ]
             },
