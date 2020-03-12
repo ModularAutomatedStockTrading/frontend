@@ -122,7 +122,7 @@ function Wrapper(props){
                 title : "Multimodels (coming soon)",
                 items : [
                     {
-                        title : <div style={{fontSize : "0.9rem"}}>"Create multimodel (coming soon)"</div>
+                        title : <div style={{fontSize : "0.9rem"}}>Create multimodel (coming soon)</div>
                     }
                 ]
             }
