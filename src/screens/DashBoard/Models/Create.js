@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {Form, Button, Table} from 'react-bootstrap'
 import InputOptions from 'components/InputOptions'
 import OutputOptions from 'components/OutputOptions'
+import {useHistory} from "react-router-dom";
 export default function Create(props){
+    const history = useHistory();
     const [amountOfHiddenLayers, setAmountOfHiddenLayers] = useState(null);
     const [nodeCount, setNodeCount] = useState({
         input : 1,
@@ -10,6 +12,10 @@ export default function Create(props){
     });
     const [inputs, setInputs] = useState({});
     const [outputs, setOutputs] = useState({});
+    const refs = {
+        name : useRef(null),
+        description : useRef(null)
+    };
     return <div style={{
         width : "100%",
         height : "100%",
@@ -22,17 +28,34 @@ export default function Create(props){
         }}>
             <p style={{fontSize : "2rem"}}>Create model</p>
             <Form onSubmit={(e) => {
-                // clear nodeCount and inputs and outputs
                 e.preventDefault();
+                const inputRes = {};
+                const outputRes = {};
+                const nodeCountRes = {};
+                for(let i = 1; i <= nodeCount.input; i++) inputRes[i] = inputs[i];
+                for(let i = 1; i <= nodeCount.output; i++) outputRes[i] = outputs[i];
+                for(let i = 1; i <= amountOfHiddenLayers; i++) nodeCountRes[i] = nodeCount[i];
+                nodeCountRes.input = nodeCount.input;
+                nodeCountRes.input = nodeCount.output;
+                const body = {
+                    inputs : inputRes,
+                    outputs : outputRes,
+                    amountOfNodes : nodeCount,
+                    amountOfHiddenLayers : amountOfHiddenLayers,
+                    name : refs.name,
+                    description : refs.description
+                }
+                // post fetch
+                history.push("/dashboard");
             }}>
                 <Form.Group>
                     <Form.Label>Name</Form.Label>
-                    <Form.Control required placeholder="Enter name" />
+                    <Form.Control ref={refs.name} required placeholder="Enter name" />
                 </Form.Group>
 
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" placeholder="Description" />
+                    <Form.Control ref={refs.description} as="textarea" placeholder="Description" />
                 </Form.Group>
 
                 <Form.Label>Input layer configuration</Form.Label>
@@ -100,9 +123,9 @@ export default function Create(props){
                 <Form.Group >
                     <Form.Label>Amount of hidden layers</Form.Label>
                     <Form.Control onChange={(e) => {
-                        if(e.target.value != "") setAmountOfHiddenLayers(Math.min(e.target.value, 100));
+                        if(e.target.value != "") setAmountOfHiddenLayers(Math.min(e.target.value, 10));
                         else setAmountOfHiddenLayers(null);
-                    }} type="number" required min="0" max="100" placeholder="Enter amount of hidden layers" value={amountOfHiddenLayers != null ? amountOfHiddenLayers : ""}/>
+                    }} type="number" required min="0" max="10" placeholder="Enter amount of hidden layers" value={amountOfHiddenLayers != null ? amountOfHiddenLayers : ""}/>
                 </Form.Group>
 
                 <Form.Label>Layer configuration</Form.Label>
@@ -118,10 +141,10 @@ export default function Create(props){
                             <td>Input</td>
                             <td>
                                 <Form.Control onChange={(e) => {
-                                    if(e.target.value != "") nodeCount.input = Math.max(Math.min(e.target.value, 50), 1);
+                                    if(e.target.value != "") nodeCount.input = Math.max(Math.min(e.target.value, 10), 1);
                                     else nodeCount.input = "";
                                     setNodeCount({...nodeCount});
-                                }} required type="number" min="1" max="50" placeholder="Enter amount of nodes" value={nodeCount.input}/>
+                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.input}/>
                             </td>
                         </tr>
                         {
@@ -148,10 +171,10 @@ export default function Create(props){
                             <td>Output</td>
                             <td>
                                 <Form.Control onChange={(e) => {
-                                    if(e.target.value != "") nodeCount.output = Math.max(Math.min(e.target.value, 50), 1);
+                                    if(e.target.value != "") nodeCount.output = Math.max(Math.min(e.target.value, 10), 1);
                                     else nodeCount.output = "";
                                     setNodeCount({...nodeCount});
-                                }} required type="number" min="1" max="50" placeholder="Enter amount of nodes" value={nodeCount.output}/>
+                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.output}/>
                             </td>
                         </tr>
                     </tbody>
