@@ -129,24 +129,24 @@ function Wrapper(props){
     return <div height={{
         height : "100vh",
         width : "100vw",
-        position : "relative",
         overflow : "hidden"
     }}>
         <div style={{
-            position : "absolute",
             height : "100%",
             width : screenW * 0.2,
             boxShadow : "0px 0px 1vw 0.1vw grey",
-            overflowY : "auto"
+            overflowY : "auto",
+            display : "inline-block",
+            float : "left"
         }}>
             <SidePanel data={menuContent}/>
         </div>
         <div style={{
-            position : "absolute",
             left : screenW * 0.2,
             height : "100%",
-            width : window.innerWidth - screenW * 0.2,
-            overflowY : "auto"
+            width : "-webkit-fill-available",
+            overflowY : "auto",
+            display : "flex"
         }}>
             {props.children}
         </div>
