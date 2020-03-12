@@ -1,10 +1,15 @@
 import React from 'react';
 export default function Overview(props){
     return <div style={{
-        margin : "auto",
-        width : "fit-content",
-        height : "fit-content"
+        width : "100%",
+        height : "100%"
     }}>
-        Overview
+        <div style={{
+            margin : "auto",
+            width : "fit-content",
+            height : "fit-content"
+        }}>
+            Overview
+        </div>
     </div>
 }
