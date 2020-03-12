@@ -23,9 +23,10 @@ export default function SidePanel(props){
 }
 
 const Item = (props) => {
+    console.log((5 - (props.depth - 1) * 0.7))
     return <div style={{
         width : "97%",
-        height : screenH * 0.05,
+        height : screenH * (5 - (props.depth - 1) * 0.7) / 100,
         padding : "0.5vh 0px 0.5vh 3%",
         position : "relative"
     }}>
@@ -41,9 +42,9 @@ const Item = (props) => {
                 position : "absolute",
                 top : 0, bottom : 0, margin : "auto",
                 height : "fit-content",
-                fontSize : "1.2rem",
+                fontSize : `${1.2 - (props.depth - 1) * 0.13}rem`,
                 fontWeight : "700",
-                marginLeft : screenH * 0.01,
+                left : screenH * 0.01,
                 userSelect: "none"
             }}>
                 {props.title}
