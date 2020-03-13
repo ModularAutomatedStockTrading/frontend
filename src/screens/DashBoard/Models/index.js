@@ -1,15 +1,28 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
+import './index.css'
 export default function Models(props){
+    const models = Object.values(useSelector(state => state.model));
     return <div style={{
         width : "100%",
         height : "100%"
     }}>
         <div style={{
-            margin : "auto",
             width : "fit-content",
-            height : "fit-content"
+            minWidth : "50%",
+            textAlign : "center",
+            margin : "5vh auto"
         }}>
-            Models
+            <p style={{fontSize : "2rem"}}>Models</p>
+            {
+                models.map((model, idx) => <div className={"Models-model"} key={model._id} style={{
+                    height : window.screenH * 0.05,
+                    width : "100%",
+                    marginBottom : window.screenH * 0.01,
+                }}>
+                    <p>{model.name}</p>
+                </div>)
+            }
         </div>
     </div>
 }

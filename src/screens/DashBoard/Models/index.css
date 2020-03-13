@@ -1,0 +1,22 @@
+/*
+
+2588A9
+
+969696
+
+*/
+
+.Models-model{
+    background: #f2ae98;
+    border-radius: 10px;
+    color : #a94625;
+    position: relative;
+}
+
+.Models-model>p{
+    position: absolute;
+    left : 0; right : 0; top : 0; bottom : 0;
+    margin : auto;
+    width : fit-content;
+    height : fit-content;
+}
