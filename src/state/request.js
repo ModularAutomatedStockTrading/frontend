@@ -1,3 +1,11 @@
 export default (method, path, body) => {
-    return fetch(method, path, {body}).then(res => res.json());
+    return fetch(`http://localhost:4000${path}`, {
+        body : JSON.stringify(body),
+        method,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+        return res.json()
+    });
 }

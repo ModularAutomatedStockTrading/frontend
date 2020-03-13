@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducers from 'state'
+import {fetch as fetchModels} from 'state/model'
 
 document.getElementsByTagName("html")[0].style.fontSize = window.screen.availWidth * 0.01 + "px";
 
@@ -13,6 +14,9 @@ window.screenW = window.screen.availWidth;
 window.screenH = window.screen.availHeight;
 
 const store = createStore(reducers);
+window.store = store;
+
+fetchModels(store.dispatch);
 
 ReactDOM.render(
     <Provider store={store}>

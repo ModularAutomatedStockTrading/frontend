@@ -1,9 +1,12 @@
 import React, {useState, useRef} from 'react';
 import {Form, Button, Table} from 'react-bootstrap'
+import {useDispatch} from 'react-redux'
 import InputOptions from 'components/InputOptions'
 import OutputOptions from 'components/OutputOptions'
 import {useHistory} from "react-router-dom";
+import {post} from 'state/model'
 export default function Create(props){
+    const dispatch = useDispatch();
     const history = useHistory();
     const [amountOfHiddenLayers, setAmountOfHiddenLayers] = useState(null);
     const [nodeCount, setNodeCount] = useState({
@@ -29,33 +32,33 @@ export default function Create(props){
             <p style={{fontSize : "2rem"}}>Create model</p>
             <Form onSubmit={(e) => {
                 e.preventDefault();
-                const inputRes = {};
-                const outputRes = {};
-                const nodeCountRes = {};
-                for(let i = 1; i <= nodeCount.input; i++) inputRes[i] = inputs[i];
-                for(let i = 1; i <= nodeCount.output; i++) outputRes[i] = outputs[i];
-                for(let i = 1; i <= amountOfHiddenLayers; i++) nodeCountRes[i] = nodeCount[i];
-                nodeCountRes.input = nodeCount.input;
-                nodeCountRes.input = nodeCount.output;
+                const inputRes = [];
+                const outputRes = [];
+                const nodeCountRes = [];
+                for(let i = 1; i <= nodeCount.input; i++) inputRes.push(inputs[i].value);
+                for(let i = 1; i <= nodeCount.output; i++) outputRes.push(outputs[i].value);
+                for(let i = 1; i <= amountOfHiddenLayers; i++) nodeCountRes.push(nodeCount[i]);
                 const body = {
                     inputs : inputRes,
                     outputs : outputRes,
-                    amountOfNodes : nodeCount,
-                    amountOfHiddenLayers : amountOfHiddenLayers,
-                    name : refs.name,
-                    description : refs.description
+                    amountOfInputNodes : nodeCount.input,
+                    amountOfOutputNodes : nodeCount.output,
+                    amountOfHiddenLayerNodes : nodeCountRes,
+                    amountOfHiddenLayers,
+                    name : refs.name.current.value,
+                    description : refs.description.current.value
                 }
-                // post fetch
-                history.push("/dashboard");
+                post(dispatch, body);
+                history.push("/dashboard/models");
             }}>
                 <Form.Group>
                     <Form.Label>Name</Form.Label>
-                    <Form.Control ref={refs.name} required placeholder="Enter name" />
+                    <Form.Control ref={refs.name} required defaultValue="" placeholder="Enter name" />
                 </Form.Group>
 
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control ref={refs.description} as="textarea" placeholder="Description" />
+                    <Form.Control ref={refs.description} as="textarea" defaultValue="" placeholder="Description" />
                 </Form.Group>
 
                 <Form.Label>Input layer configuration</Form.Label>
