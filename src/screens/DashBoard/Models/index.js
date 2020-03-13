@@ -13,7 +13,7 @@ export default function Models(props){
             textAlign : "center",
             margin : "5vh auto"
         }}>
-            <p style={{fontSize : "2rem"}}>Models</p>
+            <p style={{fontSize : "2rem", fontWeight : "700"}}>Models</p>
             {
                 models.map((model, idx) => <div className={"Models-model"} key={model._id} style={{
                     height : window.screenH * 0.05,

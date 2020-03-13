@@ -11,6 +11,11 @@
     border-radius: 10px;
     color : #a94625;
     position: relative;
+    cursor : pointer;
+}
+
+.Models-model:hover{
+    filter: brightness(0.9);
 }
 
 .Models-model>p{
@@ -19,4 +24,5 @@
     margin : auto;
     width : fit-content;
     height : fit-content;
+    font-weight: 600;
 }

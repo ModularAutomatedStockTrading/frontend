@@ -29,7 +29,7 @@ export default function Create(props){
             textAlign : "center",
             margin : "5vh auto"
         }}>
-            <p style={{fontSize : "2rem"}}>Create model</p>
+            <p style={{fontSize : "2rem", fontWeight : "700"}}>Create model</p>
             <Form onSubmit={(e) => {
                 e.preventDefault();
                 const inputRes = [];
