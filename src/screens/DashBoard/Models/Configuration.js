@@ -6,13 +6,35 @@ import OutputOptions from 'components/OutputOptions'
 import {useHistory, useParams} from "react-router-dom";
 import {post, patch, deleteModel} from 'state/model'
 import {Spinner} from 'react-bootstrap'
-export default function Configuration(props){
-    const dispatch = useDispatch();
-    const history = useHistory();
+
+export default function ConfigurationWrapper(props){
 
     const { id : modelID } = useParams();
-        
+
     const model = useSelector(state => modelID ? state.model[modelID] : null);
+
+    return <div style={{
+        width : "100%",
+        height : "100%",
+    }}>
+        <div style={{
+            width : "fit-content",
+            minWidth : "50%",
+            textAlign : "center",
+            margin : "5vh auto"
+        }}>
+            <p style={{fontSize : "2rem", fontWeight : "700"}}>{modelID ? "Edit model" :  "Create model"}</p>
+            {(modelID && !model) && <Spinner animation="border" variant="primary" />}
+            {(!modelID || model) && <Configuration model={model}/>}
+        </div>
+    </div>
+}
+
+const Configuration = (props) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    
+    const model = props.model;
     
     const [amountOfHiddenLayers, setAmountOfHiddenLayers] = useState(model ? model.amountOfHiddenLayers : null);
     
@@ -52,19 +74,7 @@ export default function Configuration(props){
         description : useRef(null)
     };
 
-    return <div style={{
-        width : "100%",
-        height : "100%",
-    }}>
-        <div style={{
-            width : "fit-content",
-            minWidth : "50%",
-            textAlign : "center",
-            margin : "5vh auto"
-        }}>
-            <p style={{fontSize : "2rem", fontWeight : "700"}}>{modelID ? "Edit model" :  "Create model"}</p>
-            {(!model && modelID) ? <Spinner animation="border" variant="primary" /> :
-            <Form onSubmit={(e) => {
+    return  <Form onSubmit={(e) => {
                 e.preventDefault();
                 const inputRes = [];
                 const outputRes = [];
@@ -222,14 +232,11 @@ export default function Configuration(props){
                     {model ? "Save" : "Create"}
                 </Button>
 
-                {modelID && <Button style={{marginLeft : "10%"}} variant="danger" onClick={() => {
-                    deleteModel(dispatch, modelID);
+                {model && <Button style={{marginLeft : "10%"}} variant="danger" onClick={() => {
+                    deleteModel(dispatch, model._id);
                     history.push("/dashboard/models");
                 }}>
                     Delete
                 </Button>}
             </Form>
-            }
-        </div>
-    </div>
 }
