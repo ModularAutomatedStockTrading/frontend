@@ -6,10 +6,8 @@ const stocks = ["Apple", "Amazon", "Google", "Microsoft"];
 const stockOptions = [];
 for(const stock of stocks){
     stockOptions.push({
-        value : {
-            type : `stock`,
-            value : stock
-        },
+        type : 'stock',
+        value : `stock/${stock}`,
         label : stock
     });
 }
@@ -25,10 +23,8 @@ const metrics = [
 const metricOptions = [];
 for(const metric of metrics){
     metricOptions.push({
-        value : {
-            type : `metric`,
-            value : metric
-        },
+        type : 'metric',
+        value : `metric/${metric}`,
         label : metric
     })
 };

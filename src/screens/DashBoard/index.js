@@ -1,7 +1,7 @@
 import React from 'react';
 import Overview from './Overview'
 import Models from './Models/index'
-import CreateModel from './Models/Create'
+import ModelConfiguration from './Models/Configuration'
 import Trades from './Trading/Trades'
 import CreateTrade from './Trading/Create'
 import SidePanel from 'components/SidePanel/index.js'
@@ -22,8 +22,11 @@ export default function DashBoard(props){
         <Route exact path={"/dashboard/models"} 
             component={() => <Wrapper active={"Models"}><Models/></Wrapper>}
         />
+        <Route path={"/dashboard/models/edit/:id"}
+            component={() => <Wrapper><ModelConfiguration {...props}/></Wrapper>}
+        />
         <Route exact path={"/dashboard/models/create"}
-            component={() => <Wrapper active={"Create model"}><CreateModel/></Wrapper>}
+            component={() => <Wrapper active={"Create model"}><ModelConfiguration/></Wrapper>}
         />
         <Route exact path={"/dashboard/trades/create"}
             component={() => <Wrapper active={"Create trade"}><CreateTrade/></Wrapper>}
@@ -124,7 +127,7 @@ function Wrapper(props){
                 title : <>Analytics <Badge variant="primary">Coming soon</Badge></>
             },
             {
-                title : <>Multimodels Analytics <Badge variant="primary">Coming soon</Badge></>,
+                title : <>Multimodels <Badge variant="primary">Coming soon</Badge></>,
                 items : [
                     {
                         title : <div style={{fontSize : "0.9rem"}}>Create multimodel <Badge variant="primary">Coming soon</Badge></div>

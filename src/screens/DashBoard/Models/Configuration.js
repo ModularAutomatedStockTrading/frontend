@@ -1,24 +1,57 @@
 import React, {useState, useRef} from 'react';
 import {Form, Button, Table} from 'react-bootstrap'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import InputOptions from 'components/InputOptions'
 import OutputOptions from 'components/OutputOptions'
-import {useHistory} from "react-router-dom";
-import {post} from 'state/model'
-export default function Create(props){
+import {useHistory, useParams} from "react-router-dom";
+import {post, patch} from 'state/model'
+import {Spinner} from 'react-bootstrap'
+export default function Configuration(props){
     const dispatch = useDispatch();
     const history = useHistory();
-    const [amountOfHiddenLayers, setAmountOfHiddenLayers] = useState(null);
-    const [nodeCount, setNodeCount] = useState({
-        input : 1,
-        output : 1
+
+    const { id : modelID } = useParams();
+        
+    const model = useSelector(state => modelID ? state.model[modelID] : null);
+    
+    const [amountOfHiddenLayers, setAmountOfHiddenLayers] = useState(model ? model.amountOfHiddenLayers : null);
+    
+    const [nodeCount, setNodeCount] = useState(() => {
+        const res = {
+            input : model ? model.amountOfInputNodes : 1,
+            output : model ? model.amountOfOutputNodes : 1
+        }
+        if(model){
+            for(let i = 1; i <= model.amountOfHiddenLayers; i++){
+                res[i] = model.amountOfHiddenLayerNodes[i-1];
+            }
+        }
+        return res;
     });
-    const [inputs, setInputs] = useState({});
-    const [outputs, setOutputs] = useState({});
+
+    const [inputs, setInputs] = useState(() => {
+        if(!model) return {};
+        const res = {};
+        for(let i = 0; i < model.amountOfInputNodes; i++){
+            res[i + 1] = model.inputs[i];
+        }
+        return res;
+    });
+
+    const [outputs, setOutputs] = useState(() => {
+        if(!model) return {};
+        const res = {};
+        for(let i = 0; i < model.amountOfOutputNodes; i++){
+            res[i + 1] = model.outputs[i];
+        }
+        return res;
+    });
+
     const refs = {
         name : useRef(null),
         description : useRef(null)
     };
+
     return <div style={{
         width : "100%",
         height : "100%",
@@ -29,14 +62,15 @@ export default function Create(props){
             textAlign : "center",
             margin : "5vh auto"
         }}>
-            <p style={{fontSize : "2rem", fontWeight : "700"}}>Create model</p>
+            <p style={{fontSize : "2rem", fontWeight : "700"}}>{modelID ? "Edit model" :  "Create model"}</p>
+            {(!model && modelID) ? <Spinner animation="border" variant="primary" /> :
             <Form onSubmit={(e) => {
                 e.preventDefault();
                 const inputRes = [];
                 const outputRes = [];
                 const nodeCountRes = [];
-                for(let i = 1; i <= nodeCount.input; i++) inputRes.push(inputs[i].value);
-                for(let i = 1; i <= nodeCount.output; i++) outputRes.push(outputs[i].value);
+                for(let i = 1; i <= nodeCount.input; i++) inputRes.push(inputs[i]);
+                for(let i = 1; i <= nodeCount.output; i++) outputRes.push(outputs[i]);
                 for(let i = 1; i <= amountOfHiddenLayers; i++) nodeCountRes.push(nodeCount[i]);
                 const body = {
                     inputs : inputRes,
@@ -48,17 +82,18 @@ export default function Create(props){
                     name : refs.name.current.value,
                     description : refs.description.current.value
                 }
-                post(dispatch, body);
+                if(model) patch(dispatch, model._id, body);
+                else post(dispatch, body);
                 history.push("/dashboard/models");
             }}>
                 <Form.Group>
                     <Form.Label>Name</Form.Label>
-                    <Form.Control ref={refs.name} required defaultValue="" placeholder="Enter name" />
+                    <Form.Control ref={refs.name} required defaultValue={model ? model.name : ""} placeholder="Enter name" />
                 </Form.Group>
 
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control ref={refs.description} as="textarea" defaultValue="" placeholder="Description" />
+                    <Form.Control ref={refs.description} as="textarea" defaultValue={model ? model.description : ""} placeholder="Description" />
                 </Form.Group>
 
                 <Form.Label>Input layer configuration</Form.Label>
@@ -184,9 +219,10 @@ export default function Create(props){
                 </Table>
 
                 <Button variant="primary" type="submit">
-                    Create
+                    {model ? "Save" : "Create"}
                 </Button>
             </Form>
+            }
         </div>
     </div>
 }

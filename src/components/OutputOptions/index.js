@@ -6,10 +6,8 @@ const stocksUp = ["Apple up", "Amazon up", "Google up", "Microsoft up"];
 const stockUpOptions = [];
 for(const stock of stocksUp){
     stockUpOptions.push({
-        value : {
-            type : `stockup`,
-            value : stock
-        },
+        value : `stockup/${stock}`,
+        type : `stockup`,
         label : stock
     });
 }
@@ -18,10 +16,8 @@ const stocksDown = ["Apple down", "Amazon down", "Google down", "Microsoft down"
 const stockDownOptions = [];
 for(const stock of stocksDown){
     stockDownOptions.push({
-        value : {
-            type : `stockdown`,
-            value : stock
-        },
+        type : `stockdown`,
+        value : `stockdown/${stock}`,
         label : stock
     });
 }
