@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import InputOptions from 'components/InputOptions'
 import OutputOptions from 'components/OutputOptions'
 import {useHistory, useParams} from "react-router-dom";
-import {post, patch} from 'state/model'
+import {post, patch, deleteModel} from 'state/model'
 import {Spinner} from 'react-bootstrap'
 export default function Configuration(props){
     const dispatch = useDispatch();
@@ -221,6 +221,13 @@ export default function Configuration(props){
                 <Button variant="primary" type="submit">
                     {model ? "Save" : "Create"}
                 </Button>
+
+                {modelID && <Button style={{marginLeft : "10%"}} variant="danger" onClick={() => {
+                    deleteModel(dispatch, modelID);
+                    history.push("/dashboard/models");
+                }}>
+                    Delete
+                </Button>}
             </Form>
             }
         </div>

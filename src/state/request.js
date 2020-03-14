@@ -6,6 +6,11 @@ export default (method, path, body) => {
             'Content-Type': 'application/json'
         }
     }).then(res => {
-        return res.json()
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return res.json()
+        }else{
+            return 1;
+        }
     });
 }

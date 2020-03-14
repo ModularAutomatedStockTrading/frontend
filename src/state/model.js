@@ -14,6 +14,9 @@ export default (state = initialState, action) => {
             state = {};
             for(const model of action.models) state[model._id] = model;
             return state;
+        case 'deleted':
+            delete state[action.modelID];
+            return {...state};
         default:
             return state;
     }
@@ -42,6 +45,15 @@ export const patch = (dispatch, id, data) => {
         dispatch({
             type : "patched",
             model : res.model
+        });
+    });
+}
+
+export const deleteModel = (dispatch, id) => {
+    request("DELETE", `/models/${id}`).then(() => {
+        dispatch({
+            type : "deleted",
+            modelID : id
         });
     });
 }
