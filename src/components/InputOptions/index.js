@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import './index.css';
 import Select, { components } from 'react-select';
 
 const stocks = ["Apple", "Amazon", "Google", "Microsoft"];

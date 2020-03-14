@@ -4,17 +4,17 @@ const initialState = {};
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case "posted":
+        case "model/posted":
             state[action.model._id] = action.model;
             return {...state};
-        case "patched":
+        case "model/patched":
             state[action.model._id] = action.model;
             return {...state};
-        case "fetched":
+        case "model/fetched":
             state = {};
             for(const model of action.models) state[model._id] = model;
             return state;
-        case 'deleted':
+        case 'model/deleted':
             delete state[action.modelID];
             return {...state};
         default:
@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
 export const fetch = (dispatch) => {
     request("GET", "/models").then((res) => {
         dispatch({
-            type : "fetched",
+            type : "model/fetched",
             models : res.models
         });
     });
@@ -34,7 +34,7 @@ export const fetch = (dispatch) => {
 export const post = (dispatch, data) => {
     request("POST", "/models", {model : data}).then((res) => {
         dispatch({
-            type : "posted",
+            type : "model/posted",
             model : res.model
         });
     });
@@ -43,7 +43,7 @@ export const post = (dispatch, data) => {
 export const patch = (dispatch, id, data) => {
     request("PATCH", `/models/${id}`, {data}).then((res) => {
         dispatch({
-            type : "patched",
+            type : "model/patched",
             model : res.model
         });
     });
@@ -52,7 +52,7 @@ export const patch = (dispatch, id, data) => {
 export const deleteModel = (dispatch, id) => {
     request("DELETE", `/models/${id}`).then(() => {
         dispatch({
-            type : "deleted",
+            type : "model/deleted",
             modelID : id
         });
     });

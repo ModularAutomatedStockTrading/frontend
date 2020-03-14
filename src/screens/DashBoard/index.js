@@ -2,7 +2,10 @@ import React from 'react';
 import Overview from './Overview'
 import Models from './Models/index'
 import ModelConfiguration from './Models/Configuration'
+import Instances from './Instances'
+import InstanceConfiguration from './Instances/Configuration'
 import Trades from './Trading/Trades'
+import Trading from './Trading'
 import CreateTrade from './Trading/Create'
 import SidePanel from 'components/SidePanel/index.js'
 import {
@@ -19,6 +22,8 @@ export default function DashBoard(props){
         <Route exact path={"/dashboard"}
             component={() => <Wrapper active={"Dashboard"}><Overview/></Wrapper>}
         />
+
+
         <Route exact path={"/dashboard/models"} 
             component={() => <Wrapper active={"Models"}><Models/></Wrapper>}
         />
@@ -26,7 +31,23 @@ export default function DashBoard(props){
             component={() => <Wrapper><ModelConfiguration {...props}/></Wrapper>}
         />
         <Route exact path={"/dashboard/models/create"}
-            component={() => <Wrapper active={"Create model"}><ModelConfiguration/></Wrapper>}
+            component={() => <Wrapper active={"+ Create model"}><ModelConfiguration/></Wrapper>}
+        />
+
+
+        <Route exact path={"/dashboard/instances"} 
+            component={() => <Wrapper active={"Instances"}><Instances/></Wrapper>}
+        />
+        <Route path={"/dashboard/instances/edit/:id"}
+            component={() => <Wrapper><InstanceConfiguration {...props}/></Wrapper>}
+        />
+        <Route exact path={"/dashboard/instances/create"}
+            component={() => <Wrapper active={"+ Create instance"}><InstanceConfiguration/></Wrapper>}
+        />
+
+
+        <Route exact path={"/dashboard/trading"}
+            component={() => <Wrapper active={"Trading"}><Trading/></Wrapper>}
         />
         <Route exact path={"/dashboard/trades/create"}
             component={() => <Wrapper active={"Create trade"}><CreateTrade/></Wrapper>}
@@ -34,6 +55,7 @@ export default function DashBoard(props){
         <Route exact path={"/dashboard/trades"}
             component={() => <Wrapper active={"View trades"}><Trades/></Wrapper>}
         />
+
    </div>
 }
 
@@ -99,7 +121,7 @@ function Wrapper(props){
                 },
                 items : [
                     {
-                        title : "Create model",
+                        title : "+ Create model",
                         onClick : () => {
                             history.push("/dashboard/models/create")
                         }
@@ -107,19 +129,30 @@ function Wrapper(props){
                 ]
             },
             {
-                title : <>Trading <Badge variant="primary">Coming soon</Badge></>,
+                title : "Instances",
+                onClick : () => {
+                    history.push("/dashboard/instances")
+                },
                 items : [
                     {
-                        title : "View trades",
+                        title : "+ Create instance",
                         onClick : () => {
-                            history.push("/dashboard/trades")
-                        },
+                            history.push("/dashboard/instances/create")
+                        }
+                    }
+                ]
+            },
+            {
+                title : "Trading",
+                onClick : () => {
+                    history.push("/dashboard/trading")
+                },
+                items : [
+                    {
+                        title : <>View trades <Badge variant="primary">Coming soon</Badge></>,
                     },
                     {
-                        title : "Create trade",
-                        onClick : () => {
-                            history.push("/dashboard/trades/create")
-                        }
+                        title : <>Create trade <Badge variant="primary">Coming soon</Badge></>,
                     }
                 ]
             },
