@@ -106,6 +106,66 @@ const Configuration = (props) => {
                     <Form.Control ref={refs.description} as="textarea" defaultValue={model ? model.description : ""} placeholder="Description" />
                 </Form.Group>
 
+                <Form.Group >
+                    <Form.Label>Amount of hidden layers</Form.Label>
+                    <Form.Control onChange={(e) => {
+                        if(e.target.value != "") setAmountOfHiddenLayers(Math.min(e.target.value, 10));
+                        else setAmountOfHiddenLayers(null);
+                    }} type="number" required min="0" max="10" placeholder="Enter amount of hidden layers" value={amountOfHiddenLayers != null ? amountOfHiddenLayers : ""}/>
+                </Form.Group>
+
+                <Form.Label>Layer configuration</Form.Label>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th># of nodes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Input</td>
+                            <td>
+                                <Form.Control onChange={(e) => {
+                                    if(e.target.value != "") nodeCount.input = Math.max(Math.min(e.target.value, 10), 1);
+                                    else nodeCount.input = "";
+                                    setNodeCount({...nodeCount});
+                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.input}/>
+                            </td>
+                        </tr>
+                        {
+                            (() => {
+                                const res = [];
+                                for(let i = 1; i <= amountOfHiddenLayers; i++){
+                                    res.push(
+                                        <tr key={i}>
+                                            <td>Hidden layer {i}</td>
+                                            <td>
+                                                <Form.Control onChange={(e) => {
+                                                    if(e.target.value != "") nodeCount[i] = Math.max(Math.min(e.target.value, 300), 1);
+                                                    else nodeCount[i] = "";
+                                                    setNodeCount({...nodeCount});
+                                                }} required type="number" min="1" max="300" placeholder="Enter amount of nodes" value={nodeCount[i] ? nodeCount[i] : ""}/>
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                                return res;
+                            })()
+                        }
+                        <tr>
+                            <td>Output</td>
+                            <td>
+                                <Form.Control onChange={(e) => {
+                                    if(e.target.value != "") nodeCount.output = Math.max(Math.min(e.target.value, 10), 1);
+                                    else nodeCount.output = "";
+                                    setNodeCount({...nodeCount});
+                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.output}/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </Table>
+
                 <Form.Label>Input layer configuration</Form.Label>
                 <Table striped bordered hover>
                     <thead>
@@ -165,66 +225,6 @@ const Configuration = (props) => {
                                 return res;
                             })()
                         }
-                    </tbody>
-                </Table>
-
-                <Form.Group >
-                    <Form.Label>Amount of hidden layers</Form.Label>
-                    <Form.Control onChange={(e) => {
-                        if(e.target.value != "") setAmountOfHiddenLayers(Math.min(e.target.value, 10));
-                        else setAmountOfHiddenLayers(null);
-                    }} type="number" required min="0" max="10" placeholder="Enter amount of hidden layers" value={amountOfHiddenLayers != null ? amountOfHiddenLayers : ""}/>
-                </Form.Group>
-
-                <Form.Label>Layer configuration</Form.Label>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Layer</th>
-                            <th># of nodes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Input</td>
-                            <td>
-                                <Form.Control onChange={(e) => {
-                                    if(e.target.value != "") nodeCount.input = Math.max(Math.min(e.target.value, 10), 1);
-                                    else nodeCount.input = "";
-                                    setNodeCount({...nodeCount});
-                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.input}/>
-                            </td>
-                        </tr>
-                        {
-                            (() => {
-                                const res = [];
-                                for(let i = 1; i <= amountOfHiddenLayers; i++){
-                                    res.push(
-                                        <tr key={i}>
-                                            <td>Hidden layer {i}</td>
-                                            <td>
-                                                <Form.Control onChange={(e) => {
-                                                    if(e.target.value != "") nodeCount[i] = Math.max(Math.min(e.target.value, 300), 1);
-                                                    else nodeCount[i] = "";
-                                                    setNodeCount({...nodeCount});
-                                                }} required type="number" min="1" max="300" placeholder="Enter amount of nodes" value={nodeCount[i] ? nodeCount[i] : ""}/>
-                                            </td>
-                                        </tr>
-                                    );
-                                }
-                                return res;
-                            })()
-                        }
-                        <tr>
-                            <td>Output</td>
-                            <td>
-                                <Form.Control onChange={(e) => {
-                                    if(e.target.value != "") nodeCount.output = Math.max(Math.min(e.target.value, 10), 1);
-                                    else nodeCount.output = "";
-                                    setNodeCount({...nodeCount});
-                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.output}/>
-                            </td>
-                        </tr>
                     </tbody>
                 </Table>
 

@@ -35,6 +35,7 @@ export const options = [
 export default function OutputOptions(props){
     return <div style={{position : "relative"}}>
         <Select
+            menuPlacement="top"
             required
             onChange={(val) => {
                 props.onPick(val);

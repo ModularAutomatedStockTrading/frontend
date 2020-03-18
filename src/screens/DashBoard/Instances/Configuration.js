@@ -107,7 +107,53 @@ const Configuration = (props) => {
                     <ModelPicker value={model} onPick={(val) => setModel(val)}/>
                 </Form.Group>}
 
-                {instance && <><Form.Label>Input layer</Form.Label>
+                {instance && <>
+
+                <Form.Group >
+                    <Form.Label>Amount of hidden layers: {amountOfHiddenLayers}</Form.Label>
+                </Form.Group>
+
+                <Form.Label>Layer configuration</Form.Label>
+                <Table striped bordered>
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th># of nodes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Input</td>
+                            <td>
+                                {nodeCount.input}
+                            </td>
+                        </tr>
+                        {
+                            (() => {
+                                const res = [];
+                                for(let i = 1; i <= amountOfHiddenLayers; i++){
+                                    res.push(
+                                        <tr key={i}>
+                                            <td>Hidden layer {i}</td>
+                                            <td>
+                                                {nodeCount[i]}
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                                return res;
+                            })()
+                        }
+                        <tr>
+                            <td>Output</td>
+                            <td>
+                                {nodeCount.output}
+                            </td>
+                        </tr>
+                    </tbody>
+                </Table>
+
+                <Form.Label>Input layer</Form.Label>
                 <Table striped bordered>
                     <thead>
                         <tr>
@@ -163,49 +209,6 @@ const Configuration = (props) => {
                     </tbody>
                 </Table>
 
-                <Form.Group >
-                    <Form.Label>Amount of hidden layers: {amountOfHiddenLayers}</Form.Label>
-                </Form.Group>
-
-                <Form.Label>Layer configuration</Form.Label>
-                <Table striped bordered>
-                    <thead>
-                        <tr>
-                            <th>Layer</th>
-                            <th># of nodes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Input</td>
-                            <td>
-                                {nodeCount.input}
-                            </td>
-                        </tr>
-                        {
-                            (() => {
-                                const res = [];
-                                for(let i = 1; i <= amountOfHiddenLayers; i++){
-                                    res.push(
-                                        <tr key={i}>
-                                            <td>Hidden layer {i}</td>
-                                            <td>
-                                                {nodeCount[i]}
-                                            </td>
-                                        </tr>
-                                    );
-                                }
-                                return res;
-                            })()
-                        }
-                        <tr>
-                            <td>Output</td>
-                            <td>
-                                {nodeCount.output}
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
                 </>}
 
                 <Button variant="primary" type="submit">

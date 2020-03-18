@@ -43,6 +43,7 @@ export default function InputOptions(props){
     return <div style={{position : "relative"}}>
         <Select
             required
+            menuPlacement="top"
             onChange={(val) => {
                 props.onPick(val);
             }}
