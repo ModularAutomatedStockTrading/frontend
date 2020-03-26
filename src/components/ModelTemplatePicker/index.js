@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import Select, { components } from 'react-select';
 import {useSelector} from 'react-redux'
 
-export default function InputOptions(props){
-    const models = Object.values(useSelector(state => state.model));
+export default function ModelTemplatePicker(props){
+    const modelTemplates = Object.values(useSelector(state => state.modelTemplate));
     return <div style={{position : "relative"}}>
         <Select
             required
@@ -11,10 +11,10 @@ export default function InputOptions(props){
                 props.onPick(val);
             }}
             value={props.value}
-            options={models.map((model, idx) => {
+            options={modelTemplates.map((modelTemplate, idx) => {
                 return {
-                    value : model._id,
-                    label : model.name
+                    value : modelTemplate._id,
+                    label : modelTemplate.name
                 }
             })}
         />

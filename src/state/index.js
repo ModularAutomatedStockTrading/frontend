@@ -1,7 +1,7 @@
 import model from './model'
-import instance from './instance'
+import modelTemplate from './modelTemplate'
 import {combineReducers} from 'redux'
 export default combineReducers({
     model,
-    instance
+    modelTemplate
 });

@@ -1,9 +1,9 @@
 import React from 'react';
 import Overview from './Overview'
-import Models from './Models/index'
+import ModelTemplates from './ModelTemplates/index'
+import ModelTemplateConfiguration from './ModelTemplates/Configuration'
+import Models from './Models'
 import ModelConfiguration from './Models/Configuration'
-import Instances from './Instances'
-import InstanceConfiguration from './Instances/Configuration'
 import Trades from './Trading/Trades'
 import Trading from './Trading'
 import CreateTrade from './Trading/Create'
@@ -24,6 +24,17 @@ export default function DashBoard(props){
         />
 
 
+        <Route exact path={"/dashboard/model_templates"} 
+            component={() => <Wrapper active={"ModelTemplates"}><ModelTemplates/></Wrapper>}
+        />
+        <Route path={"/dashboard/model_templates/edit/:id"}
+            component={() => <Wrapper><ModelTemplateConfiguration {...props}/></Wrapper>}
+        />
+        <Route exact path={"/dashboard/model_templates/create"}
+            component={() => <Wrapper active={"+ Create model template"}><ModelTemplateConfiguration/></Wrapper>}
+        />
+
+
         <Route exact path={"/dashboard/models"} 
             component={() => <Wrapper active={"Models"}><Models/></Wrapper>}
         />
@@ -32,17 +43,6 @@ export default function DashBoard(props){
         />
         <Route exact path={"/dashboard/models/create"}
             component={() => <Wrapper active={"+ Create model"}><ModelConfiguration/></Wrapper>}
-        />
-
-
-        <Route exact path={"/dashboard/instances"} 
-            component={() => <Wrapper active={"Instances"}><Instances/></Wrapper>}
-        />
-        <Route path={"/dashboard/instances/edit/:id"}
-            component={() => <Wrapper><InstanceConfiguration {...props}/></Wrapper>}
-        />
-        <Route exact path={"/dashboard/instances/create"}
-            component={() => <Wrapper active={"+ Create instance"}><InstanceConfiguration/></Wrapper>}
         />
 
 
@@ -115,6 +115,20 @@ function Wrapper(props){
                 }
             },
             {
+                title : "Model Templates",
+                onClick : () => {
+                    history.push("/dashboard/model_templates")
+                },
+                items : [
+                    {
+                        title : "+ Create model template",
+                        onClick : () => {
+                            history.push("/dashboard/model_templates/create")
+                        }
+                    }
+                ]
+            },
+            {
                 title : "Models",
                 onClick : () => {
                     history.push("/dashboard/models")
@@ -124,20 +138,6 @@ function Wrapper(props){
                         title : "+ Create model",
                         onClick : () => {
                             history.push("/dashboard/models/create")
-                        }
-                    }
-                ]
-            },
-            {
-                title : "Instances",
-                onClick : () => {
-                    history.push("/dashboard/instances")
-                },
-                items : [
-                    {
-                        title : "+ Create instance",
-                        onClick : () => {
-                            history.push("/dashboard/instances/create")
                         }
                     }
                 ]

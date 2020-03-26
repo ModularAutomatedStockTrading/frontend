@@ -32,7 +32,7 @@ export const fetch = (dispatch) => {
 }
 
 export const post = (dispatch, data) => {
-    request("POST", "/models", {model : data}).then((res) => {
+    request("POST", "/models", {data}).then((res) => {
         dispatch({
             type : "model/posted",
             model : res.model

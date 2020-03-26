@@ -2,8 +2,8 @@ import React from 'react';
 import {useSelector} from 'react-redux'
 import './index.css'
 import {useHistory} from 'react-router-dom'
-export default function Instances(props){
-    const instances = Object.values(useSelector(state => state.instance));
+export default function ModelTemplates(props){
+    const modelTemplates = Object.values(useSelector(state => state.modelTemplate));
     const history = useHistory();
     return <div style={{
         width : "100%",
@@ -15,16 +15,16 @@ export default function Instances(props){
             textAlign : "center",
             margin : "5vh auto"
         }}>
-            <p style={{fontSize : "2rem", fontWeight : "700"}}>Instances</p>
+            <p style={{fontSize : "2rem", fontWeight : "700"}}>Model templates</p>
             {
-                instances.map((instance, idx) => <div className={"Instances-instance"} key={instance._id} style={{
+                modelTemplates.map((modelTemplate, idx) => <div className={"ModelTemplates-modelTemplate"} key={modelTemplate._id} style={{
                     height : window.screenH * 0.05,
                     width : "100%",
                     marginBottom : window.screenH * 0.01,
                 }} onClick={() => {
-                    history.push(`./instances/edit/${instance._id}`);
+                    history.push(`./model_templates/edit/${modelTemplate._id}`);
                 }}>
-                    <p>{instance.name}</p>
+                    <p>{modelTemplate.name}</p>
                 </div>)
             }
         </div>

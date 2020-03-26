@@ -6,6 +6,7 @@ import OutputOptions from 'components/OutputOptions'
 import {useHistory, useParams} from "react-router-dom";
 import {post, patch, deleteModel} from 'state/model'
 import {Spinner} from 'react-bootstrap'
+import ModelTemplatePicker from 'components/ModelTemplatePicker'
 
 export default function ConfigurationWrapper(props){
 
@@ -37,6 +38,8 @@ const Configuration = (props) => {
     const model = props.model;
     
     const [amountOfHiddenLayers, setAmountOfHiddenLayers] = useState(model ? model.amountOfHiddenLayers : null);
+    
+    const [modelTemplate, setModelTemplate] = useState(null);
     
     const [nodeCount, setNodeCount] = useState(() => {
         const res = {
@@ -76,24 +79,15 @@ const Configuration = (props) => {
 
     return  <Form onSubmit={(e) => {
                 e.preventDefault();
-                const inputRes = [];
-                const outputRes = [];
-                const nodeCountRes = [];
-                for(let i = 1; i <= nodeCount.input; i++) inputRes.push(inputs[i]);
-                for(let i = 1; i <= nodeCount.output; i++) outputRes.push(outputs[i]);
-                for(let i = 1; i <= amountOfHiddenLayers; i++) nodeCountRes.push(nodeCount[i]);
                 const body = {
-                    inputs : inputRes,
-                    outputs : outputRes,
-                    amountOfInputNodes : nodeCount.input,
-                    amountOfOutputNodes : nodeCount.output,
-                    amountOfHiddenLayerNodes : nodeCountRes,
-                    amountOfHiddenLayers,
                     name : refs.name.current.value,
                     description : refs.description.current.value
                 }
                 if(model) patch(dispatch, model._id, body);
-                else post(dispatch, body);
+                else post(dispatch, {
+                    ...body,
+                    modelTemplateID : modelTemplate.value
+                });
                 history.push("/dashboard/models");
             }}>
                 <Form.Group>
@@ -106,16 +100,19 @@ const Configuration = (props) => {
                     <Form.Control ref={refs.description} as="textarea" defaultValue={model ? model.description : ""} placeholder="Description" />
                 </Form.Group>
 
+                {!model && <Form.Group>
+                    <Form.Label>Create model from: </Form.Label>
+                    <ModelTemplatePicker value={modelTemplate} onPick={(val) => setModelTemplate(val)}/>
+                </Form.Group>}
+
+                {model && <>
+
                 <Form.Group >
-                    <Form.Label>Amount of hidden layers</Form.Label>
-                    <Form.Control onChange={(e) => {
-                        if(e.target.value != "") setAmountOfHiddenLayers(Math.min(e.target.value, 10));
-                        else setAmountOfHiddenLayers(null);
-                    }} type="number" required min="0" max="10" placeholder="Enter amount of hidden layers" value={amountOfHiddenLayers != null ? amountOfHiddenLayers : ""}/>
+                    <Form.Label>Amount of hidden layers: {amountOfHiddenLayers}</Form.Label>
                 </Form.Group>
 
                 <Form.Label>Layer configuration</Form.Label>
-                <Table striped bordered hover>
+                <Table striped bordered>
                     <thead>
                         <tr>
                             <th>Layer</th>
@@ -126,11 +123,7 @@ const Configuration = (props) => {
                         <tr>
                             <td>Input</td>
                             <td>
-                                <Form.Control onChange={(e) => {
-                                    if(e.target.value != "") nodeCount.input = Math.max(Math.min(e.target.value, 10), 1);
-                                    else nodeCount.input = "";
-                                    setNodeCount({...nodeCount});
-                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.input}/>
+                                {nodeCount.input}
                             </td>
                         </tr>
                         {
@@ -141,11 +134,7 @@ const Configuration = (props) => {
                                         <tr key={i}>
                                             <td>Hidden layer {i}</td>
                                             <td>
-                                                <Form.Control onChange={(e) => {
-                                                    if(e.target.value != "") nodeCount[i] = Math.max(Math.min(e.target.value, 300), 1);
-                                                    else nodeCount[i] = "";
-                                                    setNodeCount({...nodeCount});
-                                                }} required type="number" min="1" max="300" placeholder="Enter amount of nodes" value={nodeCount[i] ? nodeCount[i] : ""}/>
+                                                {nodeCount[i]}
                                             </td>
                                         </tr>
                                     );
@@ -156,18 +145,14 @@ const Configuration = (props) => {
                         <tr>
                             <td>Output</td>
                             <td>
-                                <Form.Control onChange={(e) => {
-                                    if(e.target.value != "") nodeCount.output = Math.max(Math.min(e.target.value, 10), 1);
-                                    else nodeCount.output = "";
-                                    setNodeCount({...nodeCount});
-                                }} required type="number" min="1" max="10" placeholder="Enter amount of nodes" value={nodeCount.output}/>
+                                {nodeCount.output}
                             </td>
                         </tr>
                     </tbody>
                 </Table>
 
-                <Form.Label>Input layer configuration</Form.Label>
-                <Table striped bordered hover>
+                <Form.Label>Input layer</Form.Label>
+                <Table striped bordered>
                     <thead>
                         <tr>
                             <th>Node #</th>
@@ -183,10 +168,7 @@ const Configuration = (props) => {
                                         <tr key={i}>
                                             <td>Node {i}</td>
                                             <td>
-                                                <InputOptions value={inputs[i]} onPick={(val) => {
-                                                    inputs[i] = val;
-                                                    setInputs({...inputs});
-                                                }}/>
+                                                {inputs[i].label}
                                             </td>
                                         </tr>
                                     );
@@ -197,8 +179,8 @@ const Configuration = (props) => {
                     </tbody>
                 </Table>
 
-                <Form.Label>Output layer configuration</Form.Label>
-                <Table striped bordered hover>
+                <Form.Label>Output layer</Form.Label>
+                <Table striped bordered>
                     <thead>
                         <tr>
                             <th>Node #</th>
@@ -214,10 +196,7 @@ const Configuration = (props) => {
                                         <tr key={i}>
                                             <td>Node {i}</td>
                                             <td>
-                                                <OutputOptions value={outputs[i]} onPick={(val) => {
-                                                    outputs[i] = val;
-                                                    setOutputs({...outputs});
-                                                }}/>
+                                                {outputs[i].label}
                                             </td>
                                         </tr>
                                     );
@@ -227,6 +206,8 @@ const Configuration = (props) => {
                         }
                     </tbody>
                 </Table>
+
+                </>}
 
                 <Button variant="primary" type="submit">
                     {model ? "Save" : "Create"}

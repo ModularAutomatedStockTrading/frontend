@@ -6,7 +6,7 @@
 
 */
 
-.Instances-instance{
+.ModelTemplates-modelTemplate{
     background: #f2ae98;
     border-radius: 10px;
     color : #a94625;
@@ -14,11 +14,11 @@
     cursor : pointer;
 }
 
-.Instances-instance:hover{
+.ModelTemplates-modelTemplate:hover{
     filter: brightness(0.9);
 }
 
-.Instances-instance>p{
+.ModelTemplates-modelTemplate>p{
     position: absolute;
     left : 0; right : 0; top : 0; bottom : 0;
     margin : auto;
