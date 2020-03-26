@@ -17,6 +17,9 @@ export default (state = initialState, action) => {
         case 'model/deleted':
             delete state[action.modelID];
             return {...state};
+        case 'model/trained':
+            state[action.model._id] = action.model;
+            return {...state};
         default:
             return state;
     }
@@ -56,4 +59,13 @@ export const deleteModel = (dispatch, id) => {
             modelID : id
         });
     });
+}
+
+export const train = (dispatch, id) => {
+    request("POST", `/models/${id}/train`).then(res => {
+        dispatch({
+            type : "model/trained",
+            model : res.model
+        })
+    })
 }
