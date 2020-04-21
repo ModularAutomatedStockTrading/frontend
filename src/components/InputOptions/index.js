@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import Select, { components } from 'react-select';
+import {useSelector} from 'react-redux'
 
-const stocks = ["Apple", "Amazon", "Google", "Microsoft"];
+/*const stocks = ["Apple", "Amazon", "Google", "Microsoft"];
 const stockOptions = [];
 for(const stock of stocks){
     stockOptions.push({
@@ -37,9 +38,10 @@ export const options = [
     label: 'Metrics',
     options: metricOptions,
   }
-];
+];*/
 
 export default function InputOptions(props){
+    const options = useSelector(state => state.trading.modelInputs);
     return <div style={{position : "relative"}}>
         <Select
             required
@@ -48,7 +50,7 @@ export default function InputOptions(props){
                 props.onPick(val);
             }}
             value={props.value}
-            options={options}
+            options={options || []}
             components={{ Group : components.Group }}
         />
         <input
