@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Select, { components } from 'react-select';
-
+import {useSelector} from 'react-redux'
+/*
 const stocksUp = ["Apple up", "Amazon up", "Google up", "Microsoft up"];
 const stockUpOptions = [];
 for(const stock of stocksUp){
@@ -30,9 +31,10 @@ export const options = [
     label: 'Stocks down',
     options: stockDownOptions,
   }
-];
+];*/
 
 export default function OutputOptions(props){
+    const options = useSelector(state => state.trading.modelOutputs);
     return <div style={{position : "relative"}}>
         <Select
             menuPlacement="top"
@@ -41,7 +43,7 @@ export default function OutputOptions(props){
                 props.onPick(val);
             }}
             value={props.value}
-            options={options}
+            options={options || []}
             components={{ Group : components.Group }}
         />
         <input

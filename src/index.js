@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import reducers from 'state'
 import {fetch as fetchModels} from 'state/model'
 import {fetch as fetchModelTemplates} from 'state/modelTemplate'
-import {fetchModelInputs} from 'state/trading'
+import {fetchModelInputs, fetchModelOutputs} from 'state/trading'
 
 document.getElementsByTagName("html")[0].style.fontSize = window.screen.availWidth * 0.01 + "px";
 
@@ -21,6 +21,7 @@ window.store = store;
 fetchModels(store.dispatch);
 fetchModelTemplates(store.dispatch);
 fetchModelInputs(store.dispatch);
+fetchModelOutputs(store.dispatch);
 
 ReactDOM.render(
     <Provider store={store}>
