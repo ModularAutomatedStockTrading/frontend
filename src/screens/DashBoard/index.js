@@ -6,7 +6,8 @@ import Models from './Models'
 import ModelConfiguration from './Models/Configuration'
 import Trades from './Trading/Trades'
 import Trading from './Trading'
-import CreateTrade from './Trading/Create'
+import ATEConfiguration from './Trading/ATEs/Configuration'
+import ATEs from './Trading/ATEs'
 import SidePanel from 'components/SidePanel/index.js'
 import {
   Route,
@@ -49,10 +50,13 @@ export default function DashBoard(props){
         <Route exact path={"/dashboard/trading"}
             component={() => <Wrapper active={"Trading"}><Trading/></Wrapper>}
         />
-        <Route exact path={"/dashboard/trades/create"}
-            component={() => <Wrapper active={"Create trade"}><CreateTrade/></Wrapper>}
+        <Route exact path={"/dashboard/trading/ates/create"}
+            component={() => <Wrapper active={"+ Create ATE"}><ATEConfiguration/></Wrapper>}
         />
-        <Route exact path={"/dashboard/trades"}
+        <Route exact path={"/dashboard/trading/ates"}
+            component={() => <Wrapper active={"ATE's"}><ATEs/></Wrapper>}
+        />
+        <Route exact path={"/dashboard/trading/trades"}
             component={() => <Wrapper active={"View trades"}><Trades/></Wrapper>}
         />
 
@@ -152,7 +156,18 @@ function Wrapper(props){
                         title : <>View trades <Badge variant="primary">Coming soon</Badge></>,
                     },
                     {
-                        title : <>Create trade <Badge variant="primary">Coming soon</Badge></>,
+                        title : "ATE's",
+                        onClick : () => {
+                            history.push("/dashboard/trading/ates")
+                        },
+                        items : [
+                            {
+                                title : "+ Create ATE",
+                                onClick : () => {
+                                    history.push("/dashboard/trading/ates/create")
+                                },
+                            }
+                        ]
                     }
                 ]
             },

@@ -6,30 +6,16 @@ import OutputOptions from 'components/OutputOptions'
 import {useHistory, useParams} from "react-router-dom";
 import {post, patch, deleteModel} from 'state/model'
 import {Spinner} from 'react-bootstrap'
-import ModelTemplatePicker from 'components/ModelTemplatePicker'
+import StatePicker from 'components/StatePicker'
+import ConfigurationWrapper from 'components/ConfigurationWrapper'
 
-export default function ConfigurationWrapper(props){
-
-    const { id : modelID } = useParams();
-
-    const model = useSelector(state => modelID ? state.model[modelID] : null);
-
-    return <div style={{
-        width : "100%",
-        height : "100%",
-    }}>
-        <div style={{
-            width : "fit-content",
-            minWidth : "50%",
-            textAlign : "center",
-            margin : "5vh auto"
-        }}>
-            <p style={{fontSize : "2rem", fontWeight : "700"}}>{modelID ? "Edit model" :  "Create model"}</p>
-            {(modelID && !model) && <Spinner animation="border" variant="primary" />}
-            {(!modelID || model) && <Configuration model={model}/>}
-        </div>
-    </div>
-}
+export default props => <ConfigurationWrapper 
+    getEntity={(state, id) => state.model[id]}
+    entityName={"model"}
+    ConfigurationComponent={Configuration}
+    editTitle={"Edit model"}
+    createTitle={"Create model"}
+/>
 
 const Configuration = (props) => {
     const dispatch = useDispatch();
@@ -97,12 +83,12 @@ const Configuration = (props) => {
 
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control ref={refs.description} as="textarea" defaultValue={model ? model.description : ""} placeholder="Description" />
+                    <Form.Control ref={refs.description} as="textarea" defaultValue={model ? model.description : ""} placeholder="Enter description" />
                 </Form.Group>
 
                 {!model && <Form.Group>
                     <Form.Label>Create model from: </Form.Label>
-                    <ModelTemplatePicker value={modelTemplate} onPick={(val) => setModelTemplate(val)}/>
+                    <StatePicker value={modelTemplate} onPick={(val) => setModelTemplate(val)} getEntities={state => state.modelTemplate}/>
                 </Form.Group>}
 
                 {model && <>

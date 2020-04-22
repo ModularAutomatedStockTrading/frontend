@@ -1,5 +1,5 @@
 import React from 'react';
-export default function Create(props){
+export default function Trades(props){
     return <div style={{
         width : "100%",
         height : "100%"
@@ -9,7 +9,7 @@ export default function Create(props){
             width : "fit-content",
             height : "fit-content"
         }}>
-            
+            <p style={{fontSize : "2rem", fontWeight : "700"}}>ATE's (automatic trading engines)</p>
         </div>
     </div>
 }

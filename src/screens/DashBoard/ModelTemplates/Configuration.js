@@ -6,29 +6,15 @@ import OutputOptions from 'components/OutputOptions'
 import {useHistory, useParams} from "react-router-dom";
 import {post, patch, deleteModelTemplate} from 'state/modelTemplate'
 import {Spinner} from 'react-bootstrap'
+import ConfigurationWrapper from 'components/ConfigurationWrapper'
 
-export default function ConfigurationWrapper(props){
-
-    const { id : modelTemplateID } = useParams();
-
-    const modelTemplate = useSelector(state => modelTemplateID ? state.modelTemplate[modelTemplateID] : null);
-
-    return <div style={{
-        width : "100%",
-        height : "100%",
-    }}>
-        <div style={{
-            width : "fit-content",
-            minWidth : "50%",
-            textAlign : "center",
-            margin : "5vh auto"
-        }}>
-            <p style={{fontSize : "2rem", fontWeight : "700"}}>{modelTemplateID ? "Edit model template" :  "Create model template"}</p>
-            {(modelTemplateID && !modelTemplate) && <Spinner animation="border" variant="primary" />}
-            {(!modelTemplateID || modelTemplate) && <Configuration modelTemplate={modelTemplate}/>}
-        </div>
-    </div>
-}
+export default props => <ConfigurationWrapper 
+    getEntity={(state, id) => state.modelTemplate[id]}
+    entityName={"modelTemplate"}
+    ConfigurationComponent={Configuration}
+    editTitle={"Edit model template"}
+    createTitle={"Create model template"}
+/>
 
 const Configuration = (props) => {
     const dispatch = useDispatch();
@@ -103,7 +89,7 @@ const Configuration = (props) => {
 
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control ref={refs.description} as="textarea" defaultValue={modelTemplate ? modelTemplate.description : ""} placeholder="Description" />
+                    <Form.Control ref={refs.description} as="textarea" defaultValue={modelTemplate ? modelTemplate.description : ""} placeholder="Enter description" />
                 </Form.Group>
 
                 <Form.Group >

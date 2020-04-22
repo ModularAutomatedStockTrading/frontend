@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import Select, { components } from 'react-select';
 import {useSelector} from 'react-redux'
 
-export default function ModelTemplatePicker(props){
-    const modelTemplates = Object.values(useSelector(state => state.modelTemplate));
+export default props => {
+    const entities = Object.values(useSelector(state => props.getEntities(state)));
     return <div style={{position : "relative"}}>
         <Select
             required
@@ -11,12 +11,18 @@ export default function ModelTemplatePicker(props){
                 props.onPick(val);
             }}
             value={props.value}
-            options={modelTemplates.map((modelTemplate, idx) => {
+            options={entities.map((entity, idx) => {
                 return {
-                    value : modelTemplate._id,
-                    label : modelTemplate.name
+                    value : entity._id,
+                    label : entity.name
                 }
             })}
+            styles={{
+                menu : (provided, state) => ({
+                    ...provided,
+                    zIndex : "1000"
+                })
+            }}
         />
         <input
             tabIndex={-1}
