@@ -9,6 +9,7 @@ import reducers from 'state'
 import {fetch as fetchModels} from 'state/model'
 import {fetch as fetchModelTemplates} from 'state/modelTemplate'
 import {fetchModelInputs, fetchModelOutputs} from 'state/trading'
+import {fetch as fetchATEs} from 'state/ATE'
 
 document.getElementsByTagName("html")[0].style.fontSize = window.screen.availWidth * 0.01 + "px";
 
@@ -22,6 +23,7 @@ fetchModels(store.dispatch);
 fetchModelTemplates(store.dispatch);
 fetchModelInputs(store.dispatch);
 fetchModelOutputs(store.dispatch);
+fetchATEs(store.dispatch);
 
 ReactDOM.render(
     <Provider store={store}>

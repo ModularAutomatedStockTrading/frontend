@@ -55,10 +55,10 @@ const Configuration = props => {
                         <Form.Label>{output.label}</Form.Label>
                     </div>
                     <div style={{width : "50%", display : "inline-block", textAlign : "left"}}>
-                        <ToggleButtonGroup type="radio" name="options" defaultValue={0}>
-                            <ToggleButton value={-1}>False</ToggleButton>
-                            <ToggleButton value={0}>Unset</ToggleButton>
-                            <ToggleButton value={1}>True</ToggleButton>
+                        <ToggleButtonGroup type="radio" name="options" defaultValue={"unset"}>
+                            <ToggleButton value={"false"}>False</ToggleButton>
+                            <ToggleButton value={"unset"}>Unset</ToggleButton>
+                            <ToggleButton value={"true"}>True</ToggleButton>
                         </ToggleButtonGroup>
                     </div>
                 </ListGroup.Item>
@@ -72,10 +72,10 @@ const Configuration = props => {
                         <Form.Label>{output.label}</Form.Label>
                     </div>
                     <div style={{width : "50%", display : "inline-block", textAlign : "left"}}>
-                        <ToggleButtonGroup type="radio" name="options" defaultValue={0}>
-                            <ToggleButton value={-1}>False</ToggleButton>
-                            <ToggleButton value={0}>Unset</ToggleButton>
-                            <ToggleButton value={1}>True</ToggleButton>
+                        <ToggleButtonGroup type="radio" name="options" defaultValue={"unset"}>
+                            <ToggleButton value={"false"}>False</ToggleButton>
+                            <ToggleButton value={"unset"}>Unset</ToggleButton>
+                            <ToggleButton value={"true"}>True</ToggleButton>
                         </ToggleButtonGroup>
                     </div>
                 </ListGroup.Item>
