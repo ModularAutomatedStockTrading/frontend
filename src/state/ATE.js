@@ -32,7 +32,7 @@ export const fetch = (dispatch) => {
 }
 
 export const post = (dispatch, data) => {
-    request("POST", "/ates", {data}).then((res) => {
+    return request("POST", "/ates", {data}).then((res) => {
         dispatch({
             type : "ATE/posted",
             ATE : res.ATE
@@ -41,7 +41,7 @@ export const post = (dispatch, data) => {
 }
 
 export const patch = (dispatch, id, data) => {
-    request("PATCH", `/ATEs/${id}`, {data}).then((res) => {
+    return request("PATCH", `/ATEs/${id}`, {data}).then((res) => {
         dispatch({
             type : "ATE/patched",
             ATE : res.ATE
@@ -50,7 +50,7 @@ export const patch = (dispatch, id, data) => {
 }
 
 export const deleteATE = (dispatch, id) => {
-    request("DELETE", `/ATE/${id}`).then(() => {
+    return request("DELETE", `/ATE/${id}`).then(() => {
         dispatch({
             type : "ATE/deleted",
             ATEID : id

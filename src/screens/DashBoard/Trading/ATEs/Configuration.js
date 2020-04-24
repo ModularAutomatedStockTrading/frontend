@@ -4,16 +4,26 @@ import ConfigurationWrapper from 'components/ConfigurationWrapper'
 import {Form, Button, Table, ToggleButtonGroup, ToggleButton, ListGroup} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import StatePicker from 'components/StatePicker'
+import {useHistory} from "react-router-dom";
+
+import {post, patch} from 'state/ATE'
 
 export default props => <ConfigurationWrapper 
-    getEntity={(state, id) => state.ates[id]}
+    getEntity={(state, id) => state.ATE[id]}
     entityName={"ATE"}
     ConfigurationComponent={Configuration}
     editTitle={"Edit ATE (automatic trading engine)"}
     createTitle={"Create ATE (automatic trading engine)"}
 />
 
+const getOutputMap = model => {
+    const res = [];
+    for(const i in model.outputs) res[i] = "unset";
+    return res;
+}
+
 const Configuration = props => {
+    
     const ATE = props.ATE;
     const getTrainedModels = state => {
         const res = {};
@@ -24,7 +34,8 @@ const Configuration = props => {
         }
         return res;
     }
-    const [modelValue, setModelValue] = useState(null);
+
+    const [modelValue, setModelValue] = useState(ATE ? {value : ATE.modelID} : null);
 
     const model = useSelector(state => modelValue && modelValue.value ? state.model[modelValue.value] : null);
 
@@ -33,8 +44,45 @@ const Configuration = props => {
         description : useRef(null)
     };
 
+    const dispatch = useDispatch();
+
+    const history = useHistory();
+
+    const [bidTrigger, setBidTrigger] = useState(ATE ? ATE.bidTrigger : null);
+    const [sellTrigger, setSellTrigger] = useState(ATE ? ATE.sellTrigger : null);
+
+    if(bidTrigger == null && model){
+        setBidTrigger(getOutputMap(model));
+    }
+    if(sellTrigger == null && model){
+        setSellTrigger(getOutputMap(model));
+    }
+
     return (
-    <Form>
+    <Form onSubmit={e => {
+        e.preventDefault();
+        if(!ATE){
+            post(dispatch, {
+                name : refs.name.current.value,
+                description : refs.description.current.value,
+                modelID : modelValue.value,
+                bidTrigger,
+                sellTrigger
+            }).then(() => {
+                history.push("/dashboard/trading/ATEs")
+            })
+        }else{
+            patch(dispatch, ATE._id, {
+                name : refs.name.current.value,
+                description : refs.description.current.value,
+                modelID : modelValue.value,
+                bidTrigger,
+                sellTrigger
+            }).then(() => {
+                history.push("/dashboard/trading/ATEs")
+            })
+        }
+    }}>
         <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control ref={refs.name} required defaultValue={ATE ? ATE.name : ""} placeholder="Enter name" />
@@ -46,16 +94,25 @@ const Configuration = props => {
         </Form.Group>
         {!ATE && <Form.Group>
             <Form.Label>Create ATE from: </Form.Label>
-            <StatePicker value={modelValue} onPick={(val) => setModelValue(val)} getEntities={getTrainedModels}/>
+            <StatePicker value={modelValue} onPick={(val) => {
+                setModelValue(val);
+                setTimeout(() => setBidTrigger(null), 100)
+                setTimeout(() => setSellTrigger(null), 100)
+            }} getEntities={getTrainedModels}/>
         </Form.Group>}
+        {ATE && <h5>ATE created from {model.name}</h5>}
+        <br/>
         <h4>ATE bid trigger</h4>
         <ListGroup>
-            {model ? model.outputs.map((output, idx) => <ListGroup.Item key={idx}>
+            {(model && bidTrigger) ? model.outputs.map((output, idx) => <ListGroup.Item key={idx}>
                     <div style={{width : "47%", marginRight : "3%", display : "inline-block", textAlign : "right"}}>
                         <Form.Label>{output.label}</Form.Label>
                     </div>
-                    <div style={{width : "50%", display : "inline-block", textAlign : "left"}}>
-                        <ToggleButtonGroup type="radio" name="options" defaultValue={"unset"}>
+                    <div style={{width : "50%", display : "inline-block", textAlign : "left"}} >
+                        <ToggleButtonGroup type="radio" name="options" value={bidTrigger[idx]} onChange={newValue => {
+                            bidTrigger[idx] = newValue;
+                            setBidTrigger([...bidTrigger])
+                        }}>
                             <ToggleButton value={"false"}>False</ToggleButton>
                             <ToggleButton value={"unset"}>Unset</ToggleButton>
                             <ToggleButton value={"true"}>True</ToggleButton>
@@ -67,12 +124,15 @@ const Configuration = props => {
         <br/>
         <h4>ATE sell trigger</h4>
         <ListGroup>
-            {model ? model.outputs.map((output, idx) => <ListGroup.Item key={idx}>
+            {(model && sellTrigger) ? model.outputs.map((output, idx) => <ListGroup.Item key={idx}>
                     <div style={{width : "47%", marginRight : "3%", display : "inline-block", textAlign : "right"}}>
                         <Form.Label>{output.label}</Form.Label>
                     </div>
                     <div style={{width : "50%", display : "inline-block", textAlign : "left"}}>
-                        <ToggleButtonGroup type="radio" name="options" defaultValue={"unset"}>
+                        <ToggleButtonGroup type="radio" name="options" value={sellTrigger[idx]} onChange={newValue => {
+                            sellTrigger[idx] = newValue;
+                            setSellTrigger([...sellTrigger])
+                        }}>
                             <ToggleButton value={"false"}>False</ToggleButton>
                             <ToggleButton value={"unset"}>Unset</ToggleButton>
                             <ToggleButton value={"true"}>True</ToggleButton>
@@ -83,7 +143,7 @@ const Configuration = props => {
         </ListGroup>
         <br/>
         <Button type={"submit"}>
-            Create
+            {ATE ? "Save" : "Create"}
         </Button>
     </Form>
     )

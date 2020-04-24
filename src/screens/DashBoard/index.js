@@ -53,6 +53,9 @@ export default function DashBoard(props){
         <Route exact path={"/dashboard/trading/ates/create"}
             component={() => <Wrapper active={"+ Create ATE"}><ATEConfiguration/></Wrapper>}
         />
+        <Route exact path={"/dashboard/trading/ates/edit/:id"}
+            component={() => <Wrapper><ATEConfiguration/></Wrapper>}
+        />
         <Route exact path={"/dashboard/trading/ates"}
             component={() => <Wrapper active={"ATE's"}><ATEs/></Wrapper>}
         />

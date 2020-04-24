@@ -1,15 +1,32 @@
 import React from 'react';
-export default function Trades(props){
+import {useSelector} from 'react-redux'
+import {useHistory} from 'react-router-dom'
+import './index.css'
+export default props => {
+    const ATEs = Object.values(useSelector(state => state.ATE));
+    const history = useHistory();
     return <div style={{
         width : "100%",
         height : "100%"
     }}>
         <div style={{
-            margin : "auto",
             width : "fit-content",
-            height : "fit-content"
+            minWidth : "50%",
+            textAlign : "center",
+            margin : "5vh auto"
         }}>
             <p style={{fontSize : "2rem", fontWeight : "700"}}>ATE's (automatic trading engines)</p>
+            {
+                ATEs.map((ATE, idx) => <div className={"ATEs-ATE"} key={ATE._id} style={{
+                    height : window.screenH * 0.05,
+                    width : "100%",
+                    marginBottom : window.screenH * 0.01,
+                }} onClick={() => {
+                    history.push(`./ATEs/edit/${ATE._id}`);
+                }}>
+                    <p>{ATE.name}</p>
+                </div>)
+            }
         </div>
     </div>
 }
