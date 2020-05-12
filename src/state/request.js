@@ -1,5 +1,6 @@
+console.log(process.env.REACT_APP_BACKENDURL)
 export default (method, path, body) => {
-    return fetch(`http://localhost:4000${path}`, {
+    return fetch(`http://${process.env.REACT_APP_BACKENDURL}${path}`, {
         body : JSON.stringify(body),
         method,
         headers: {
