@@ -6,6 +6,7 @@ import {Button, Spinner, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import ConfirmationPopup from 'components/ConfirmationPopup'
 import {train as trainModel} from 'state/model'
 
+// renders list of all models with trading buttons by the side
 export default function Models(props){
     const models = useSelector(state => state.model);
     const history = useHistory();

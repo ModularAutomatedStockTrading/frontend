@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import './index.css'
+// renders all ATEs in a list
 export default props => {
     const ATEs = Object.values(useSelector(state => state.ATE));
     const history = useHistory();

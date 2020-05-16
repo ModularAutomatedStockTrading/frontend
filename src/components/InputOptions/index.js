@@ -40,6 +40,7 @@ export const options = [
   }
 ];*/
 
+// renders all input options as a dropdown picker
 export default function InputOptions(props){
     const options = useSelector(state => state.trading.modelInputs);
     return <div style={{position : "relative"}}>

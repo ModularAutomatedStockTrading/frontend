@@ -8,6 +8,7 @@ import {post, patch, deleteModelTemplate} from 'state/modelTemplate'
 import {Spinner} from 'react-bootstrap'
 import ConfigurationWrapper from 'components/ConfigurationWrapper'
 
+// configuration wrapper for model template config
 export default props => <ConfigurationWrapper 
     getEntity={(state, id) => state.modelTemplate[id]}
     entityName={"modelTemplate"}
@@ -16,6 +17,7 @@ export default props => <ConfigurationWrapper
     createTitle={"Create model template"}
 />
 
+// configuration for model template. Supports create and edit.
 const Configuration = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();

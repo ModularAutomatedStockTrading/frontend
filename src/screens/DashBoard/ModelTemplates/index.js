@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux'
 import './index.css'
 import {useHistory} from 'react-router-dom'
+// renders a list of model templates
 export default function ModelTemplates(props){
     const modelTemplates = Object.values(useSelector(state => state.modelTemplate));
     const history = useHistory();

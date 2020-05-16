@@ -2,6 +2,7 @@ import request from './request'
 
 const initialState = {};
 
+// model reducer. returns new state based on previous state and an action
 export default (state = initialState, action) => {
     switch (action.type) {
         case "model/posted":
@@ -25,6 +26,7 @@ export default (state = initialState, action) => {
     }
 }
 
+// fetches all models
 export const fetch = (dispatch) => {
     request("GET", "/models").then((res) => {
         dispatch({
@@ -34,6 +36,7 @@ export const fetch = (dispatch) => {
     });
 }
 
+// creates new model
 export const post = (dispatch, data) => {
     request("POST", "/models", {data}).then((res) => {
         dispatch({
@@ -43,6 +46,7 @@ export const post = (dispatch, data) => {
     });
 }
 
+// modifies model by id
 export const patch = (dispatch, id, data) => {
     request("PATCH", `/models/${id}`, {data}).then((res) => {
         dispatch({
@@ -52,6 +56,7 @@ export const patch = (dispatch, id, data) => {
     });
 }
 
+// deletes model by id
 export const deleteModel = (dispatch, id) => {
     request("DELETE", `/models/${id}`).then(() => {
         dispatch({

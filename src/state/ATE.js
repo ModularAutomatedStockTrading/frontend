@@ -2,6 +2,7 @@ import request from './request'
 
 const initialState = {};
 
+// ATE reducer. returns new state based on previous state and an action
 export default (state = initialState, action) => {
     switch (action.type) {
         case "ATE/posted":
@@ -22,6 +23,7 @@ export default (state = initialState, action) => {
     }
 }
 
+// fetches all ATEs
 export const fetch = (dispatch) => {
     request("GET", "/ates").then((res) => {
         dispatch({
@@ -31,6 +33,7 @@ export const fetch = (dispatch) => {
     });
 }
 
+// creates new ATE
 export const post = (dispatch, data) => {
     return request("POST", "/ates", {data}).then((res) => {
         dispatch({
@@ -40,6 +43,7 @@ export const post = (dispatch, data) => {
     });
 }
 
+// modifies existing ATE by id
 export const patch = (dispatch, id, data) => {
     return request("PATCH", `/ATEs/${id}`, {data}).then((res) => {
         dispatch({
@@ -49,6 +53,7 @@ export const patch = (dispatch, id, data) => {
     });
 }
 
+// deletes ATE by id
 export const deleteATE = (dispatch, id) => {
     return request("DELETE", `/ATE/${id}`).then(() => {
         dispatch({

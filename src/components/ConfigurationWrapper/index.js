@@ -3,6 +3,11 @@ import {useSelector} from 'react-redux'
 import {useParams} from "react-router-dom";
 import {Spinner} from 'react-bootstrap'
 
+// wrapper for configuration component. Provides the following functionality.
+/*
+* select from redux based on functino
+* renders loading icon if the entity is not available
+*/
 export default props => {
 
     const { id } = useParams();

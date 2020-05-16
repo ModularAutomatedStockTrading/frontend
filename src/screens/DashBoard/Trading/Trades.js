@@ -1,4 +1,5 @@
 import React from 'react';
+// trading screen
 export default function Trades(props){
     return <div style={{
         width : "100%",

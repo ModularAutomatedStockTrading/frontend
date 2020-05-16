@@ -2,6 +2,7 @@ import request from './request'
 
 const initialState = {};
 
+// model template reducer. returns new state based on previous state and an action
 export default (state = initialState, action) => {
     switch (action.type) {
         case "modelTemplate/posted":
@@ -22,6 +23,7 @@ export default (state = initialState, action) => {
     }
 }
 
+// fetches all model templates
 export const fetch = (dispatch) => {
     request("GET", "/modelTemplates").then((res) => {
         dispatch({
@@ -31,6 +33,7 @@ export const fetch = (dispatch) => {
     });
 }
 
+// creates new model template
 export const post = (dispatch, data) => {
     request("POST", "/modelTemplates", {modelTemplate : data}).then((res) => {
         dispatch({
@@ -40,6 +43,7 @@ export const post = (dispatch, data) => {
     });
 }
 
+// modifies a model template by id
 export const patch = (dispatch, id, data) => {
     request("PATCH", `/modelTemplates/${id}`, {data}).then(res => {
         dispatch({
@@ -49,6 +53,7 @@ export const patch = (dispatch, id, data) => {
     });
 }
 
+// deletes a model template by id
 export const deleteModelTemplate = (dispatch, id) => {
     request("DELETE", `/modelTemplates/${id}`).then(() => {
         dispatch({

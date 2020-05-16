@@ -8,8 +8,7 @@ import DashBoard from 'screens/DashBoard/index.js'
 import Home from 'screens/Home/index.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-console.log("helllo")
-
+// returns the actual webapplication
 function App() {
   return (
       <Router>

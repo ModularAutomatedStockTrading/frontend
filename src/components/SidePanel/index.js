@@ -2,6 +2,7 @@ import React from 'react';
 import './index.css';
 const screenW = window.screen.availWidth;
 const screenH = window.screen.availHeight;
+// the overall SidePanel component. Renders a modular sidepanel based on the described datamodel.
 export default function SidePanel(props){
     const data = props.data;
     const elements = [];
@@ -29,6 +30,7 @@ export default function SidePanel(props){
     </div>
 }
 
+// a single item / element in the SidePanel
 const Item = (props) => {
     return <div style={{
         width : "97%",

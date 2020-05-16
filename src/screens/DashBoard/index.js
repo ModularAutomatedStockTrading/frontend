@@ -18,6 +18,7 @@ import { Badge } from 'react-bootstrap';
 const screenW = window.screen.availWidth;
 const screenH = window.screen.availHeight;
 
+// returns DashBoard distributor component
 export default function DashBoard(props){
     return <div>
         <Route exact path={"/dashboard"}
@@ -66,6 +67,7 @@ export default function DashBoard(props){
    </div>
 }
 
+// for testing
 const testMenuContent = {
     items : [
         {
@@ -110,6 +112,7 @@ const testMenuContent = {
     ]
 };
 
+// renders the children by the side of the sidepanel
 function Wrapper(props){
     const history = useHistory();
     const menuContent = {

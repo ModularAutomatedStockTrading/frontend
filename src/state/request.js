@@ -1,4 +1,6 @@
 console.log(process.env.REACT_APP_BACKENDURL)
+
+// fetching middleware. Resolve fetch responses from JSON to memory objects
 export default (method, path, body) => {
     return fetch(`http://${process.env.REACT_APP_BACKENDURL}${path}`, {
         body : JSON.stringify(body),

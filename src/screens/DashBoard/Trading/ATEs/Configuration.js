@@ -8,6 +8,7 @@ import {useHistory} from "react-router-dom";
 
 import {post, patch} from 'state/ATE'
 
+// wrapper for the ATE config
 export default props => <ConfigurationWrapper 
     getEntity={(state, id) => state.ATE[id]}
     entityName={"ATE"}
@@ -16,12 +17,14 @@ export default props => <ConfigurationWrapper
     createTitle={"Create ATE (automatic trading engine)"}
 />
 
+// returns an array of length, model.outputs.length, with all elements equal to "unset"
 const getOutputMap = model => {
     const res = [];
     for(const i in model.outputs) res[i] = "unset";
     return res;
 }
 
+// configuration component. Configuration of an ATE. Supperts create and edit.
 const Configuration = props => {
     
     const ATE = props.ATE;
@@ -82,7 +85,7 @@ const Configuration = props => {
                 history.push("/dashboard/trading/ATEs")
             })
         }
-    }}>
+    }}>template
         <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control ref={refs.name} required defaultValue={ATE ? ATE.name : ""} placeholder="Enter name" />

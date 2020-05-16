@@ -2,6 +2,7 @@ import request from './request'
 
 const initialState = {};
 
+// reducer. returns the new trading state based on the previous and an action
 export default (state = initialState, action) => {
     switch (action.type) {
         case "trading/gotModelInputs":
@@ -19,6 +20,7 @@ export default (state = initialState, action) => {
     }
 }
 
+// fetches all inputs for models and model templates
 export const fetchModelInputs = (dispatch) => {
     request("GET", "/trading-api/inputs").then((res) => {
         dispatch({
@@ -28,6 +30,7 @@ export const fetchModelInputs = (dispatch) => {
     });
 }
 
+// fetches all outputs for models and model templates
 export const fetchModelOutputs = (dispatch) => {
     request("GET", "/trading-api/outputs").then((res) => {
         dispatch({

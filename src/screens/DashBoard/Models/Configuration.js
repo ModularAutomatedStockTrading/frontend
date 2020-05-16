@@ -9,6 +9,7 @@ import {Spinner} from 'react-bootstrap'
 import StatePicker from 'components/StatePicker'
 import ConfigurationWrapper from 'components/ConfigurationWrapper'
 
+// configuration wrapper for model configuration
 export default props => <ConfigurationWrapper 
     getEntity={(state, id) => state.model[id]}
     entityName={"model"}
@@ -17,6 +18,7 @@ export default props => <ConfigurationWrapper
     createTitle={"Create model"}
 />
 
+// model configuration. Supports create and edit.
 const Configuration = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();

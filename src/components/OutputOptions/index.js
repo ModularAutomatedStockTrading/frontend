@@ -33,6 +33,7 @@ export const options = [
   }
 ];*/
 
+// renders all output options as a dropdown picker
 export default function OutputOptions(props){
     const options = useSelector(state => state.trading.modelOutputs);
     return <div style={{position : "relative"}}>
